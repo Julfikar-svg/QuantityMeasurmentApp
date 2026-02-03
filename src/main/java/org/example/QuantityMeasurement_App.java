@@ -30,20 +30,47 @@ public class QuantityMeasurement_App {
         }
     }
 
-    //
-    public static boolean compare(double a, double b) {
-        Feet firstLengthValue=new Feet(a);
-        Feet secondLengthValue=new Feet(b);
-        return firstLengthValue.equals(secondLengthValue);
+    public static class Inches {
+        private final double value;
+        public Inches(double value){
+            this.value=value;
+        }
+        public double getValue(){
+            return value;
+        }
+        //Overrride equals method and compare two value
+        @Override
+        public boolean equals(Object obj) {
+            if(this == obj) return true;
 
+            if(obj==null || getClass() !=obj.getClass()) return false;
+            Inches other= (Inches) obj;
+            return Double.compare(this.value,other.value)==0;
+        }
     }
+
+    //
+
+
+    public static void demonStrateFeetEquality(){
+        Feet firstLengthValue=new Feet(1.2);
+        Feet secondLengthValue=new Feet(1.2);
+        boolean status= firstLengthValue.equals(secondLengthValue);
+        System.out.println("Feet value is:: "+status);
+    }
+
+    public static void demonStrateInchesEquality(){
+        Inches firstLengthValue=new Inches(1.2);
+        Inches secondLengthValue=new Inches(1.2);
+        boolean status= firstLengthValue.equals(secondLengthValue);
+        System.out.println("Inches value is:: "+status);
+    }
+
 
     public static void main(String args[]){
 
-        double firstFeetValue=1.2;
-        double secondFeetValue=1.2;
-        boolean status= QuantityMeasurement_App.compare(firstFeetValue,secondFeetValue);
-        System.out.println("Feet value is:: "+status);
+        demonStrateFeetEquality();
+        demonStrateInchesEquality();
     }
 
 }
