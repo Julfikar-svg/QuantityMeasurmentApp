@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 public class QuantityMeasurement_AppTest {
 
@@ -50,7 +51,16 @@ public class QuantityMeasurement_AppTest {
     }
 
     @Test
-    public void testCrossnquality() {
+    public void testCrossnquality() {//testCrossUnitInequality
+        // Interpreting this as cross-unit equality positive case
+        Length oneFoot = new Length(1.0, Length.LengthUnit.FEET);
+        Length twelveInches = new Length(12.0, Length.LengthUnit.INCHES);
+
+        assertTrue("1 ft should equal 12 in", oneFoot.equals(twelveInches));
+    }
+
+    @Test
+    public void testCrossUnitInequality() {//testCrossUnitInequality
         // Interpreting this as cross-unit equality positive case
         Length oneFoot = new Length(1.0, Length.LengthUnit.FEET);
         Length twelveInches = new Length(12.0, Length.LengthUnit.INCHES);
@@ -73,6 +83,113 @@ public class QuantityMeasurement_AppTest {
         // Negative case
         assertFalse("1 ft (12 in) should NOT equal 13 in", ft1.equals(in13));
     }
+ @Test
+ public void yardEquals36Inches(){
+     Length oneYard = new Length(1.0, Length.LengthUnit.YARDS);
+     Length thirtySixInches = new Length(36.0, Length.LengthUnit.INCHES);
+     assertEquals(oneYard,thirtySixInches);
+ }
+ @Test
+ public void centimetersEquals39Point370Inches(){
+     Length oneCentemiters = new Length(100.0, Length.LengthUnit.CENTIMETERS);
+     Length inches = new Length(39.3701, Length.LengthUnit.INCHES);
+     assertEquals(oneCentemiters,inches);
+   }
+   @Test
+    public void threeFeetEqualsOneYard(){
+       Length feet = new Length(3.0, Length.LengthUnit.FEET);
+       Length yard = new Length(1.0, Length.LengthUnit.YARDS);
+       assertEquals(feet,yard);
+   }
+
+    @Test
+    public void thirtyPoints48cmEqualsOneFoot(){
+        Length cm = new Length(30.48, Length.LengthUnit.CENTIMETERS);
+        Length feet = new Length(1.0, Length.LengthUnit.FEET);
+        assertEquals(cm,feet);
+    }
+    @Test
+    public void yardNotEqualsToInches(){
+        Length yard = new Length(1.0, Length.LengthUnit.YARDS);
+        Length inches = new Length(1.0, Length.LengthUnit.INCHES);
+        assertNotEquals(yard,inches);
+    }
+
+    @Test
+    public void referenceEqualitySameObject(){
+        Length feet = new Length(1.0, Length.LengthUnit.FEET);
+        Length inches = new Length(1.0, Length.LengthUnit.INCHES);
+        Length yard = new Length(1.0, Length.LengthUnit.YARDS);
+        Length centimeter = new Length(1.0, Length.LengthUnit.CENTIMETERS);
+        assertEquals(feet,feet);
+        assertEquals(inches,inches);
+        assertEquals(yard,yard);
+        assertEquals(centimeter,centimeter);
+    }
+
+    @Test
+    public void equalsReturnsFalseForNull(){
+        Length feet = new Length(1.0, Length.LengthUnit.FEET);
+        Length inches = new Length(1.0, Length.LengthUnit.INCHES);
+        Length yard = new Length(1.0, Length.LengthUnit.YARDS);
+        Length centimeter = new Length(1.0, Length.LengthUnit.CENTIMETERS);
+        assertNotEquals(null,feet);
+        assertNotEquals(null,inches);
+        assertNotEquals(null,yard);
+        assertNotEquals(null,centimeter);
+    }
+
+    @Test
+    public void reflexiveSymmetricAndTransitiveProperty(){
+        Length feet = new Length(3.0, Length.LengthUnit.FEET);
+        Length inches = new Length(36.0, Length.LengthUnit.INCHES);
+        Length yard = new Length(1.0, Length.LengthUnit.YARDS);
 
 
+        // Reflexive
+        assertEquals(feet,feet);
+
+        //Symmetric
+        assertEquals(feet,inches);
+        assertEquals(inches,feet);
+
+        //Transitive:
+        assertEquals(feet,yard);
+    }
+
+    @Test
+    public void differentValuesSameUnitNotEqual(){
+        Length feet1 = new Length(3.0, Length.LengthUnit.FEET);
+        Length feet2 = new Length(5.0, Length.LengthUnit.FEET);
+        assertNotEquals(feet1,feet2);
+
+        Length inches1 = new Length(36.0, Length.LengthUnit.INCHES);
+        Length inches2 = new Length(50.0, Length.LengthUnit.INCHES);
+        assertNotEquals(inches1,inches2);
+    }
+
+    @Test
+    public void crossUnitEqualityDemonstrateMethod(){
+        Length oneFoot = new Length(1.0, Length.LengthUnit.FEET);               // 12.00 in
+        Length twelveInches = new Length(12.0, Length.LengthUnit.INCHES);       // 12.00 in
+        assertEquals("1 ft == 12 in", oneFoot, twelveInches);
+
+        // 3 ft == 1 yd
+        Length threeFeet = new Length(3.0, Length.LengthUnit.FEET);             // 36.00 in
+        Length oneYard = new Length(1.0, Length.LengthUnit.YARDS);              // 36.00 in
+        assertEquals("3 ft == 1 yd", threeFeet, oneYard);
+
+        // 30.48 cm == 1 ft  (30.48 cm = 12.00 in)
+        Length thirtyPoint48Cm = new Length(30.48, Length.LengthUnit.CENTIMETERS);
+        assertEquals("30.48 cm == 1 ft", thirtyPoint48Cm, oneFoot);
+
+        // 100 cm == 39.3701 in (rounds to 39.37 in on both sides)
+        Length cm100 = new Length(100.0, Length.LengthUnit.CENTIMETERS);
+        Length in393701 = new Length(39.3701, Length.LengthUnit.INCHES);
+        assertEquals("100 cm == 39.3701 in after 2-dec rounding", cm100, in393701);
+
+        // Negative demonstration: 1 yd != 1 in
+        Length oneInch = new Length(1.0, Length.LengthUnit.INCHES);
+        assertNotEquals("1 yd != 1 in", oneYard, oneInch);
+    }
 }

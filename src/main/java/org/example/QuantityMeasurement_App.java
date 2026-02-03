@@ -33,13 +33,23 @@ public class QuantityMeasurement_App {
         System.out.println("Feet vs Inches comparison:");
         demonstrateLengthEquality(feet, inches);
     }
+    public static void demonstrateLengthComparison( double value1, Length.LengthUnit unit1,
+                                                    double value2, Length.LengthUnit unit2){
+        Length feet = new Length(value1, unit1);
+        Length inches = new Length(value2, unit2);
+        System.out.println("Feet vs Inches comparison:");
+        demonstrateLengthEquality(feet, inches);
+    }
 
     //Main method to demonstrate feet and inches equality check
 //And comparison check between feet and inches
     public static void main(String args[]){
-        demonstrateFeetEquality();
-        demonstrateInchesEquality();
-        demonstrateFeetInchesComparison();
+       demonstrateLengthComparison(1.0,Length.LengthUnit.FEET,12.0,Length.LengthUnit.INCHES) ;
+       demonstrateLengthComparison(1.0,Length.LengthUnit.YARDS,36.0,Length.LengthUnit.INCHES);
+       demonstrateLengthComparison(100.0,Length.LengthUnit.CENTIMETERS,39.3701,Length.LengthUnit.INCHES);
+       demonstrateLengthComparison(3.0,Length.LengthUnit.FEET,1.0,Length.LengthUnit.YARDS);
+        demonstrateLengthComparison(30.48,Length.LengthUnit.CENTIMETERS,1.0,Length.LengthUnit.FEET);
+
     }
 
 }

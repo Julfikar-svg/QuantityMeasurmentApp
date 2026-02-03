@@ -9,7 +9,9 @@ public class Length {
     //With the base unit being inches. This means all the conversion factor define in the terms of inches.
     public enum LengthUnit {
         FEET(12.0),
-        INCHES(1.0);
+        INCHES(1.0),
+        YARDS(36.0),
+        CENTIMETERS(0.393701);
         private final double conversionFactor;
 
         LengthUnit(double conversionFactor){
@@ -29,7 +31,8 @@ public class Length {
 
     //Convert the length value to base unit
     private double convertToBaseUnit(){
-        return this.value * this.unit.getConversionFactor();
+        double baseValue= this.value * this.unit.getConversionFactor();
+        return Double.parseDouble(String.format("%.2f",baseValue));
     }
     //convert two length object for equality base on their values in the base unit
     public Boolean compare(Length thatLength){
@@ -53,7 +56,15 @@ public class Length {
     public static void main(String args[]){
         Length length1=new Length(1.2,LengthUnit.FEET);
         Length length2=new Length(1.3,LengthUnit.INCHES);
-        System.out.println("Are length equals? "+ length1.equals(length2));
+        System.out.println("Are length equals? "+ length1.equals(length2));//should print true
+
+        Length length3=new Length(1.2,LengthUnit.YARDS);
+        Length length4=new Length(36.0,LengthUnit.INCHES);
+        System.out.println("Are length equals? "+ length3.equals(length4));//should print true
+
+        Length length5=new Length(100.0,LengthUnit.CENTIMETERS);
+        Length length6=new Length(39.3701,LengthUnit.INCHES);
+        System.out.println("Are length equals? "+ length5.equals(length6));//should print true
     }
 }
 
