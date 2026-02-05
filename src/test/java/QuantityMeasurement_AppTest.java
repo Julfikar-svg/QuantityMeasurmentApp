@@ -192,4 +192,20 @@ public class QuantityMeasurement_AppTest {
         Length oneInch = new Length(1.0, Length.LengthUnit.INCHES);
         assertNotEquals("1 yd != 1 in", oneYard, oneInch);
     }
+
+    @Test
+    public void convertFeetToInches(){
+        Length lenthInInches= QuantityMeasurement_App.demonstrateLengthConversions(3.0,Length.LengthUnit.FEET,Length.LengthUnit.INCHES);
+        Length expectedLength=new Length(36.0,Length.LengthUnit.INCHES);
+
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(lenthInInches,expectedLength));
+    }
+    @Test
+    public void convertYardToInchesUsingOverloadMethod(){
+        Length lengthInYards=new Length(2.0,Length.LengthUnit.YARDS);
+        Length lenthInInches= QuantityMeasurement_App.demonstrateLengthConversions(lengthInYards,Length.LengthUnit.INCHES);
+        Length expectedLength=new Length(72.0,Length.LengthUnit.INCHES);
+
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(lenthInInches,expectedLength));
+    }
 }
