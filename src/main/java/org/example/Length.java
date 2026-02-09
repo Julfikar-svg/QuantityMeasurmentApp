@@ -142,7 +142,12 @@ public class Length {
         double baseValue= this.value * this.unit.getConversionFactor();
         return Double.parseDouble(String.format("%.2f",baseValue));
     }
+    private double convertBaseFromBaseUnitTargetUnit(double lengthInches, LengthUnit targetUnit){
 
+        // Convert to target;
+        double targetValue = lengthInches / targetUnit.getConversionFactor();
+        return Double.parseDouble(String.format("%.2f",targetValue));
+     }
     //convert two length object for equality base on their values in the base unit
     public Boolean compare(Length thatLength){
         if (thatLength == null) return false;
@@ -174,6 +179,44 @@ public class Length {
                 .setScale(scale, mode)
                 .doubleValue();
     }
+//UC6
+    /** Adds two lengths and returns the sum in the specified targetUnit. Base unit: FEET. */
+    public static Length add(Length length1, Length length2, LengthUnit targetUnit) {
+        Objects.requireNonNull(targetUnit, "targetUnit must not be null");
+        validateLength(length1, "length1");
+        validateLength(length2, "length2");
+
+        double sumFeet = toFeet(length1.value, length1.unit)
+                + toFeet(length2.value, length2.unit);
+
+        double sumInTargetUnit = fromFeet(sumFeet, targetUnit);
+        return new Length(sumInTargetUnit, targetUnit);
+    }
+//Validate the length
+    private static void validateLength(Length length, String argName) {
+        if (length == null) {
+            throw new IllegalArgumentException(argName + " must not be null");
+        }
+        if (length.unit == null) {
+            throw new IllegalArgumentException(argName + ".unit must not be null");
+        }
+        validateValue(length.value);
+    }
+
+    // --- FEET-based conversion helpers (using enum's inches-per-unit factors) ---
+
+    private static double toFeet(double value, LengthUnit unit) {
+        // value[in unit] * (inches per unit) / (inches per foot)
+        return (value * unit.getConversionFactor()) / 12.0;
+    }
+
+    private static double fromFeet(double feet, LengthUnit targetUnit) {
+        // feet * (inches per foot) / (inches per targetUnit)
+        return (feet * 12.0) / targetUnit.getConversionFactor();
+    }
+
+
+    //private static double
     @Override
     public String toString() {
         return value + " " + unit.name();
