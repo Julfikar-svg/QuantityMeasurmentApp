@@ -9,25 +9,22 @@ public class Length {
     private double value;
     private LengthUnit unit;
 
-    //Enumn represent different length unit and their conversion factor
-    //With the base unit being inches. This means all the conversion factor define in the terms of inches.
     public enum LengthUnit {
         FEET(12.0),
         INCHES(1.0),
         YARDS(36.0),
         CENTIMETERS(0.393701);
-        private final double conversionFactor;
-        LengthUnit(double conversionFactor){
 
+        private final double conversionFactor;
+
+        LengthUnit(double conversionFactor){
             this.conversionFactor = conversionFactor;
         }
         public double getConversionFactor(){
-
             return conversionFactor;
         }
 
     }
-     //===== Construction & validation =====
 
     // Constructor initializes length value and unit.
 
@@ -48,8 +45,6 @@ public class Length {
         return unit;
     }
 
-
-
     private static void validateValue(double value) {
         if (!Double.isFinite(value)) {
             throw new IllegalArgumentException("value must be a finite number (not NaN or infinite).");
@@ -57,37 +52,14 @@ public class Length {
     }
     // ===== Core base conversion (no rounding) =====
 
-    /**
-     * Converts this value to the base unit (inches), without rounding.
-     */
-
     private double toBaseInchesRaw() {
         return this.value * this.unit.getConversionFactor();
     }
 
-
-    // ===== Static conversion API =====
-
-    /**
-     * Converts a numeric value from sourceUnit to targetUnit.
-     * Main flow:
-     *   1) Validate inputs (finite value, non-null units)
-     *   2) Convert to base (inches)
-     *   3) Convert from base to target unit
-     *   4) Return numeric result (no rounding by default)
-     *
-     * @throws IllegalArgumentException if inputs are invalid
-     */
     public static double convert(double value, LengthUnit sourceUnit, LengthUnit targetUnit) {
         return convert(value, sourceUnit, targetUnit, -1, null);
     }
 
-    /**
-     * Converts a numeric value from sourceUnit to targetUnit with optional rounding.
-     * @param scale non-negative scale for rounding; use -1 to skip rounding
-     * @param roundingMode required if scale >= 0
-     * @throws IllegalArgumentException if inputs are invalid
-     */
     public static double convert(double value,
                                 LengthUnit sourceUnit,
                                 LengthUnit targetUnit,
@@ -121,16 +93,10 @@ public class Length {
 
     // ===== Instance conversion API =====
 
-    /**
-     * Converts THIS quantity to the target unit (no rounding).
-     */
     public double convert(LengthUnit targetUnit) {
         return convert(this.value, this.unit, targetUnit);
     }
 
-    /**
-     * Converts THIS quantity to the target unit with rounding.
-     */
     public double convert(LengthUnit targetUnit, int scale, RoundingMode roundingMode) {
         return convert(this.value, this.unit, targetUnit, scale, roundingMode);
     }
@@ -159,9 +125,6 @@ public class Length {
         return Double.compare(thisRoundedInches, thatRoundedInches) == 0;
 
     }
-//Override equals method and first two objects are same reference or not
-//If not it checks if other object is null or a different class
-//Finally calls the compare methods to determine equality based on the converted value
 
     @Override
     public boolean equals(Object o){
@@ -181,16 +144,13 @@ public class Length {
     }
 //UC6
     /** Adds two lengths and returns the sum in the specified targetUnit. Base unit: FEET. */
-    public static Length add(Length length1, Length length2, LengthUnit targetUnit) {
-        Objects.requireNonNull(targetUnit, "targetUnit must not be null");
-        validateLength(length1, "length1");
-        validateLength(length2, "length2");
-
-        double sumFeet = toFeet(length1.value, length1.unit)
-                + toFeet(length2.value, length2.unit);
-
-        double sumInTargetUnit = fromFeet(sumFeet, targetUnit);
-        return new Length(sumInTargetUnit, targetUnit);
+    public Length add(Length thatLength) {
+        if(thatLength==null){
+            throw new IllegalArgumentException("Length can not be null");
+        }
+        double sumInches=this.convertToBaseUnit()+thatLength.convertToBaseUnit();
+        double resultValue=convertBaseFromBaseUnitTargetUnit(sumInches,this.unit);
+        return new Length(round(resultValue,2, RoundingMode.HALF_UP),this.unit);
     }
 //Validate the length
     private static void validateLength(Length length, String argName) {
@@ -202,19 +162,6 @@ public class Length {
         }
         validateValue(length.value);
     }
-
-    // --- FEET-based conversion helpers (using enum's inches-per-unit factors) ---
-
-    private static double toFeet(double value, LengthUnit unit) {
-        // value[in unit] * (inches per unit) / (inches per foot)
-        return (value * unit.getConversionFactor()) / 12.0;
-    }
-
-    private static double fromFeet(double feet, LengthUnit targetUnit) {
-        // feet * (inches per foot) / (inches per targetUnit)
-        return (feet * 12.0) / targetUnit.getConversionFactor();
-    }
-
 
     //private static double
     @Override

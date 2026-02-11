@@ -64,10 +64,13 @@ public class QuantityMeasurement_App {
         Length targetLength = new Length(inStatic, targetUnit);
         return targetLength;
     }
-
+//UC6
+    public  static Length demonstrateLengthConversions(Length length1,Length length2){
+      return length1.add(length2);
+    }
     // Main method to demonstrate equality checks and conversions
     public static void main(String[] args) {
-        // Equality / comparison demonstrations (same as before)
+        /*// Equality / comparison demonstrations (same as before)
         demonstrateLengthComparison(1.0, Length.LengthUnit.FEET, 12.0, Length.LengthUnit.INCHES);
         demonstrateLengthComparison(1.0, Length.LengthUnit.YARDS, 36.0, Length.LengthUnit.INCHES);
         demonstrateLengthComparison(100.0, Length.LengthUnit.CENTIMETERS, 39.3701, Length.LengthUnit.INCHES);
@@ -82,7 +85,25 @@ public class QuantityMeasurement_App {
         demonstrateLengthConversions(0.0,Length.LengthUnit.FEET,Length.LengthUnit.INCHES);
 
         Length length=new Length(1.0,Length.LengthUnit.FEET);
-        demonstrateLengthConversions(length,Length.LengthUnit.INCHES);
+        demonstrateLengthConversions(length,Length.LengthUnit.INCHES);*/
+
+
+        //UC6
+        System.out.println(demonstrateLengthConversions(new Length(1.0,Length.LengthUnit.FEET),new Length(2.0,Length.LengthUnit.FEET)));
+
+        System.out.println(demonstrateLengthConversions(new Length(12.0,Length.LengthUnit.INCHES),new Length(1.0,Length.LengthUnit.FEET)));
+
+        System.out.println(demonstrateLengthConversions(new Length(1.0,Length.LengthUnit.FEET),new Length(12.0,Length.LengthUnit.INCHES)));
+
+        System.out.println(demonstrateLengthConversions(new Length(1.0,Length.LengthUnit.YARDS),new Length(3.0,Length.LengthUnit.FEET)));
+
+        System.out.println(demonstrateLengthConversions(new Length(36.0,Length.LengthUnit.INCHES),new Length(1.0,Length.LengthUnit.YARDS)));
+
+        System.out.println(demonstrateLengthConversions(new Length(2.54,Length.LengthUnit.CENTIMETERS),new Length(1.0,Length.LengthUnit.INCHES)));
+
+        System.out.println(demonstrateLengthConversions(new Length(5.0,Length.LengthUnit.FEET),new Length(0.0,Length.LengthUnit.INCHES)));
+
+        System.out.println(demonstrateLengthConversions(new Length(5.0,Length.LengthUnit.FEET),new Length(-2.0,Length.LengthUnit.FEET)));
     }
 
 

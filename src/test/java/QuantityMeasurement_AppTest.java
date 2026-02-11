@@ -208,4 +208,86 @@ public class QuantityMeasurement_AppTest {
 
         assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(lenthInInches,expectedLength));
     }
+   //UC6
+
+    @Test
+    public void addSameUnitFeetAndFeet(){
+        Length length1=new Length(1.0,Length.LengthUnit.FEET);
+        Length length2=new Length(1.0,Length.LengthUnit.FEET);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(2.0,Length.LengthUnit.FEET);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+
+    @Test
+    public void addSameUnitInchesAndInches(){
+        Length length1=new Length(12.0,Length.LengthUnit.INCHES);
+        Length length2=new Length(12.0,Length.LengthUnit.INCHES);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(24.0,Length.LengthUnit.INCHES);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+
+    @Test
+    public void addCrossUnitFeetAndInches(){
+        Length length1=new Length(1.0,Length.LengthUnit.FEET);
+        Length length2=new Length(12.0,Length.LengthUnit.INCHES);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(2.0,Length.LengthUnit.FEET);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+    @Test
+    public void addCrossUnitYardsAndInches(){
+        Length length1=new Length(1.0,Length.LengthUnit.YARDS);
+        Length length2=new Length(3.0,Length.LengthUnit.FEET);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(2.0,Length.LengthUnit.YARDS);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+
+
+    @Test
+    public void additionCommutative(){
+        Length length1=new Length(1.0,Length.LengthUnit.FEET);
+        Length length2=new Length(12.0,Length.LengthUnit.INCHES);
+
+        Length length3=new Length(12.0,Length.LengthUnit.INCHES);
+        Length length4=new Length(1.0,Length.LengthUnit.FEET);
+
+        Length sumLength1=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+        Length sumLength2=QuantityMeasurement_App.demonstrateLengthConversions(length3,length4);
+
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength1,sumLength2));
+    }
+
+    @Test
+    public void addCrossUnitWithZero(){
+        Length length1=new Length(5.0,Length.LengthUnit.FEET);
+        Length length2=new Length(0.0,Length.LengthUnit.INCHES);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(5.0,Length.LengthUnit.FEET);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+
+    @Test
+    public void additonWithNegativeValue(){
+        Length length1=new Length(5.0,Length.LengthUnit.FEET);
+        Length length2=new Length(-2.0,Length.LengthUnit.FEET);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(3.0,Length.LengthUnit.FEET);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
+
+    @Test
+    public void additonWithNullSecondOperand(){
+        Length length1=new Length(5.0,Length.LengthUnit.FEET);
+        assertThrows(IllegalArgumentException.class,()->length1.add(null));
+    }
+
 }
