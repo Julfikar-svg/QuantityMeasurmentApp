@@ -169,7 +169,7 @@ public class Length {
         return value + " " + unit.name();
     }
     public static void main(String args[]){
-        Length length1 = new Length(1.2, LengthUnit.FEET);
+       /* Length length1 = new Length(1.2, LengthUnit.FEET);
         Length length2 = new Length(1.3, LengthUnit.INCHES);
         System.out.println("Are length equals? " + length1.equals(length2)); // should print true after 2-dec rounding
 
@@ -185,7 +185,13 @@ public class Length {
         double inches = Length.convert(2.0, LengthUnit.YARDS, LengthUnit.INCHES);          // 72.0
         double feetRounded = Length.convert(100.0, LengthUnit.CENTIMETERS, LengthUnit.FEET, 3, RoundingMode.HALF_UP); // 3.281
         System.out.println("2 yd in inches = " + inches);
-        System.out.println("100 cm in feet (3-dec) = " + feetRounded);
+        System.out.println("100 cm in feet (3-dec) = " + feetRounded);*/
+
+        Length length1=new Length(12.0,Length.LengthUnit.INCHES);
+        Length length2=new Length(12.0,Length.LengthUnit.INCHES);
+
+        Length resultLength=length1.add(length2);
+        System.out.println("Length:: "+resultLength);
 
     }
 }

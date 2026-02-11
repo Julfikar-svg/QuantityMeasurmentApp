@@ -290,4 +290,13 @@ public class QuantityMeasurement_AppTest {
         assertThrows(IllegalArgumentException.class,()->length1.add(null));
     }
 
+    @Test
+    public void addLargeValueFeetAndFeet(){
+        Length length1=new Length(1e6,Length.LengthUnit.FEET);
+        Length length2=new Length(1e6,Length.LengthUnit.FEET);
+        Length sumLength=QuantityMeasurement_App.demonstrateLengthConversions(length1,length2);
+
+        Length expectedLength=new Length(2e6,Length.LengthUnit.FEET);
+        assertTrue(QuantityMeasurement_App.demonstrateLengthEquality(sumLength,expectedLength));
+    }
 }
